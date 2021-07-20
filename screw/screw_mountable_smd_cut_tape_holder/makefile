@@ -1,15 +1,6 @@
 # match "module foobar() { // `make` me"
 TARGETS= \
-		tslot.stl \
-		tslot_cable_hook.stl \
-		tslot_cable_loop.stl \
-		tslot_ethernet_cable_clip.stl \
-		tslot_headphone_mount.stl \
-		tslot_hook.stl \
-		tslot_paper_holder.stl \
-		tslot_screwdriver_mount.stl \
-		tslot_tape_holderwCatch.stl \
-		tslot_smd_feeder.stl \
+		screwMountableSMDcutTapeHolder.stl \
 
 all: ${TARGETS}
 

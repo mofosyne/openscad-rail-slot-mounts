@@ -10,7 +10,7 @@ use <tslot.scad>
 
 /* [Stacking] */
 // Extra Copies
-extraStackCopies = 2;
+extraStackCopies = 0;
 
 /* [Tslot Spec] */
 // CenterDepth

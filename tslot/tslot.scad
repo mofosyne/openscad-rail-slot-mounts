@@ -17,8 +17,9 @@ $fn=100;
 // Hook Width
 //hookwidth=7;
 
-module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=3)
+module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5)
 {
+    drillholeDiameter=8-1.3; // Allow Standoff be used as mounting post (Currently using 8mm screws)
     cWidthTol = 1;
     tslot_centerdepth = tslot_centerdepth + standoff;
     difference()
@@ -26,7 +27,7 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
         union()
         {
             // Tslot Mount Inner
-            translate([0,tslot_centerdepth,0])
+            translate([0,tslot_centerdepth+hookwidth/2-2,0])
             intersection()
             {                        
                 extraGrip = 0.25;
@@ -47,6 +48,27 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
                     cylinder(r=10+extraGrip, h=10);
             }
 
+            // Stabliser
+            translate([0, 4, 0])
+            rotate([-90,0,0])
+                intersection()
+                {
+                    stabliserD=4;
+                    cheight = tslot_centerdepth+hookwidth/2+2;
+                    stabTol = 0.25;
+                    union()
+                    {
+                        translate([0,0,cheight/2])
+                            cylinder(r=(tslot_centerwidth-stabTol)/2+0.12, h=stabliserD, center=true);
+                        translate([tslot_centerwidth/4, tslot_centerwidth/4, cheight/2])
+                            cube([(tslot_centerwidth-stabTol*2)/2, tslot_centerwidth/2, stabliserD], center=true);
+                        translate([-tslot_centerwidth/4, -tslot_centerwidth/4, cheight/2])
+                            cube([(tslot_centerwidth-stabTol*2)/2, tslot_centerwidth/2, stabliserD], center=true);
+                    }
+                    translate([0,0,cheight/2])
+                        cube([tslot_centerwidth, tslot_centerwidth-cWidthTol, stabliserD], center=true);
+                }
+
             // This will change the stiffness
             slimming=1.5;
 
@@ -55,58 +77,38 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
             rotate([-90,0,0])
                 intersection()
                 {
-                    cheight = tslot_centerdepth+hookwidth/2+1;
+                    cheight = tslot_centerdepth+hookwidth/2+3;
                     cylinder(r=tslot_centerwidth/2, h=cheight);
-                    translate([0, 0, cheight/2])
-                        cube([tslot_centerwidth-slimming, tslot_centerwidth-cWidthTol, cheight], center=true);
-                }
-
-            // Stabliser
-            translate([0, 2.5, 0])
-            rotate([-90,0,0])
-                intersection()
-                {
-                    cheight = tslot_centerdepth+hookwidth/2+2;
-                    stabliserD=4;
-                    stabTol = 0.25;
                     union()
                     {
-                        translate([0,0,cheight/2])
-                            cylinder(r=(tslot_centerwidth-stabTol)/2, h=stabliserD, center=true);
-                        translate([tslot_centerwidth/4, tslot_centerwidth/4, cheight/2])
-                            cube([(tslot_centerwidth-stabTol*2)/2, tslot_centerwidth/2, stabliserD], center=true);
-                        translate([-tslot_centerwidth/4, -tslot_centerwidth/4, cheight/2])
-                            cube([(tslot_centerwidth-stabTol*2)/2, tslot_centerwidth/2, stabliserD], center=true);
-                    }
-                    cube([tslot_centerwidth, tslot_centerwidth-cWidthTol, cheight], center=true);
-                }
-    
-            // Base
-            translate([0, 0, 0])
-            rotate([-90,0,0])
-                hull()
-                {
-                    translate([0, 0, standoff])
-                    intersection()
-                    {
-                        cheight = tslot_centerdepth+hookwidth/2+1;
-                        cylinder(r=tslot_centerwidth/2, h=1);
-                        translate([0, 0, standoff/2])
-                            cube([tslot_centerwidth-slimming, hookwidth, 1], center=true);
-                    }
-                    intersection()
-                    {
-                        cheight = tslot_centerdepth+hookwidth/2+1;
-                        cylinder(r=tslot_centerwidth/2, h=1);
-                        translate([0, 0, standoff/2])
-                            cube([tslot_centerwidth, hookwidth, standoff], center=true);
+                        hull()
+                        {
+                            translate([0, 0, 0])
+                                cube([tslot_centerwidth, tslot_centerwidth-cWidthTol, 0.01], center=true);
+                            translate([0, 0,  cheight/2 - standoff])
+                                cube([tslot_centerwidth-slimming, drillholeDiameter, 0.1], center=true);
+                        }
+                        hull()
+                        {
+                            translate([0, 0,  cheight/2 - standoff])
+                                cube([tslot_centerwidth-slimming, drillholeDiameter, 0.1], center=true);
+                            translate([0, 0,  cheight/2+1])
+                                cube([tslot_centerwidth-slimming, drillholeDiameter, 0.1], center=true);
+                        }
+                        hull()
+                        {   
+                            translate([0, 0,  cheight/2+1])
+                                cube([tslot_centerwidth-slimming, drillholeDiameter, 0.1], center=true);
+                            translate([0, 0,  cheight/2+2-0.5])
+                                cube([tslot_centerwidth, tslot_centerwidth-cWidthTol, 0.01], center=true);
+                        }
                     }
                 }
         }
 
         // Split
-        translate([0, 100/2+standoff, 0])
-            cube([2.5,100,100], center=true);
+        translate([0, 100/2+standoff-1.5, 0])
+            cube([2.3,100,100], center=true);
     }
 }
 
@@ -119,7 +121,7 @@ model_slot_centerdepth = 7;
 //%translate([model_slot_side/2+model_slot_gap/2,0,0]) cube([model_slot_side,model_slot_depth,100], center=true);
 //%translate([-model_slot_side/2-model_slot_gap/2,0,0]) cube([model_slot_side,model_slot_depth,100], center=true);
 
-translate([0,1,0])
+translate([0,4,0])
 %difference()
 {
     wallDepth=model_slot_depth+4;
