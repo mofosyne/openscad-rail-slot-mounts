@@ -25,6 +25,8 @@
     
 */
 
+SMD_STRIP_HOLDER = false;
+
 backplateThickness=8;
 backplateHeight=0; // Set to minimum as we don't need it...
 backplateSupportHeight=20;
@@ -110,15 +112,15 @@ module drillHole(){
                     cube([4,8,backplateThickness+countersunkHeight], center=true);
             }
 
-            translate([drillholeDiameter/2+0.6,drillholeDiameter/4+3,-0.001])
+            translate([drillholeDiameter/2+0.3,drillholeDiameter/4+3,-0.001])
                 cylinder(r=1.5,h=backplateThickness+countersunkHeight,$fn=fn);
-            translate([-drillholeDiameter/2-0.6,drillholeDiameter/4+3,-0.001])
+            translate([-drillholeDiameter/2-0.3,drillholeDiameter/4+3,-0.001])
                 cylinder(r=1.5,h=backplateThickness+countersunkHeight,$fn=fn);
 
-            translate([drillholeDiameter/2+(1.25)/2,drillholeDiameter/4-2+2,-0.001+(backplateThickness+countersunkHeight)/2])
-                cube([(1.25),6,backplateThickness+countersunkHeight], center=true);
-            translate([-drillholeDiameter/2-(1.25)/2,drillholeDiameter/4-2+2,-0.001+(backplateThickness+countersunkHeight)/2])
-                cube([(1.25),6,backplateThickness+countersunkHeight], center=true);
+            translate([drillholeDiameter/2+(1.10)/2,drillholeDiameter/4-2+2,-0.001+(backplateThickness+countersunkHeight)/2])
+                cube([(1.10),6,backplateThickness+countersunkHeight], center=true);
+            translate([-drillholeDiameter/2-(1.10)/2,drillholeDiameter/4-2+2,-0.001+(backplateThickness+countersunkHeight)/2])
+                cube([(1.10),6,backplateThickness+countersunkHeight], center=true);
         }
     }
 }
@@ -168,12 +170,29 @@ module smdHolder(){
         {
             topOffset = 10;
             // tapepeel
+            if (SMD_STRIP_HOLDER)
             hull()
             {
-                translate([0,-4,5])
-                    cube([smdWidth8mm,0.1,2]);
-                translate([0,-10,3])
-                    cube([smdWidth8mm,0.1,3]);
+                translate([smdWidth8mm/2,-4,9])
+                    cube([smdWidth8mm/4,0.1,0.1], center=true);
+                translate([smdWidth8mm/2,-10,9])
+                    cube([smdWidth8mm/4,0.1,0.1], center=true);
+                translate([smdWidth8mm/2,-3.5,7])
+                    cube([smdWidth8mm/4,0.1,0.1], center=true);
+                translate([smdWidth8mm/2,-10,4])
+                    cube([smdWidth8mm/4,0.1,0.1], center=true);
+            }
+            if (SMD_STRIP_HOLDER)
+            hull()
+            {
+                translate([smdWidth8mm/2,-4,7.5])
+                    cube([smdWidth8mm/4-1,0.1,0.1], center=true);
+                translate([smdWidth8mm/2,-10,7.5])
+                    cube([smdWidth8mm/4-1,0.1,0.1], center=true);
+                translate([smdWidth8mm/2,-3.5,7])
+                    cube([smdWidth8mm-2,0.1,0.1], center=true);
+                translate([smdWidth8mm/2,-10,4])
+                    cube([smdWidth8mm,0.1,0.1], center=true);
             }
             // Window
             hull()
@@ -250,7 +269,9 @@ module totalHolder(){
                         translate([totalLengthAccumulate[i],0,0])
                             singleHolder(holderGapSize[i],holderSize[i]);
                     }
+                    
                     // SMD Holder Bulk
+                    if (SMD_STRIP_HOLDER)
                     translate([27,0,0])
                     for(i = [0 : 9]){
                         translate([i*11,0,0])
