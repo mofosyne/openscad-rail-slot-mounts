@@ -13,14 +13,13 @@ $fn=100;
 //tslot_centerwidth = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
-/* [Hook Calc] */
-// Hook Width
-//hookwidth=7;
+// Note: Total height of this object is (tslot_centerwidth - cWidthTol), this is done this way to adjust for varying printing tolerance
 
-module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5)
+// 2021-07-28: tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1
+
+module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1)
 {
     drillholeDiameter=8-1.3; // Allow Standoff be used as mounting post (Currently using 8mm screws)
-    cWidthTol = 1;
     tslot_centerdepth = tslot_centerdepth + standoff;
     difference()
     {
