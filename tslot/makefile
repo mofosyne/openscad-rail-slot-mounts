@@ -10,6 +10,7 @@ TARGETS= \
 		tslot_screwdriver_mount.stl \
 		tslot_tape_holderwCatch.stl \
 		tslot_smd_feeder.stl \
+		tslot_paper_holder_mini.stl \
 
 all: ${TARGETS}
 
