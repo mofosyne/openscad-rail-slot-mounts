@@ -3,7 +3,7 @@ Mount intended for tslot rails (and perhaps vslots later) written in OpenSCAD fo
 
 To see what each may look like, you can check the png folder for each design.
 
-This uses makefile to update all the stl of each hooks.
+This uses makefile to update all the stl of each hooks. And also [docker-openscad](https://github.com/openscad/docker-openscad) as self compiling openscad seems fraught with render errors.
 
 ![](tslot/png/tslot.stl.png)
 
