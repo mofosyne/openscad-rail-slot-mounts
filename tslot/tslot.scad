@@ -17,9 +17,12 @@ $fn=100;
 
 // 2021-07-28: tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1
 
-module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1, tslot_nut_profile_g=1, tslot_nut_profile_e=5 )
+module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1, tslot_nut_profile_g=1, tslot_nut_profile_e=5, tslot_nut_profile_a=20)
 {
     drillholeDiameter=8-1.3; // Allow Standoff be used as mounting post (Currently using 8mm screws)
+    split_grip=1.5;
+    split_gap=2;
+    split_tol=0.5;
     tslot_centerdepth = tslot_centerdepth + standoff;
     difference()
     {
@@ -37,14 +40,14 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
                     {
                         negTol = 0.25;
                         posTol = 1.5;
-                        translate([0,   negTol,0]) cube([20+extraGrip-2*ss, 0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
-                        translate([0, tslot_nut_profile_g-negTol,0]) cube([20+extraGrip-2*ss, 0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
+                        translate([0,   negTol,0]) cube([(tslot_nut_profile_a+split_grip)+extraGrip-2*ss, 0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
+                        translate([0, tslot_nut_profile_g-negTol,0]) cube([(tslot_nut_profile_a+split_grip)+extraGrip-2*ss, 0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
                         translate([0, (tslot_nut_profile_g+tslot_nut_profile_e)-posTol,0]) cube([tslot_centerwidth-2*ss,           0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
                     }
                     sphere(r=ss);
                 }
                 rotate([-90,0,0])
-                    cylinder(r=10+extraGrip, h=10);
+                    cylinder(r=((tslot_nut_profile_a+split_grip)/2)+extraGrip, h=10);
             }
 
             // Stabliser
@@ -107,7 +110,7 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
 
         // Split
         translate([0, 100/2+standoff-1.5, 0])
-            cube([2.3,100,100], center=true);
+            cube([(split_gap+split_tol),100,100], center=true);
     }
 }
 
