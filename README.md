@@ -17,3 +17,8 @@ Pull request will be accepted. Just don't forget to add your name to this page s
     - `tslot.scad` : main template module used by all other parts in this folder
 * screw : This contains designs that can be mounted on walls via screws, or tslot or vslot rails via rail nuts or screws.
 * vslot : This will contain designs that can be immediately used on any vslot rail (To be done)
+
+## T-Slot Profile Nut
+
+![](tslot_lock_nut_dia.svg)
+

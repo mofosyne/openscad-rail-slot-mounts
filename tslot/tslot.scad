@@ -17,7 +17,7 @@ $fn=100;
 
 // 2021-07-28: tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1
 
-module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1)
+module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1, tslot_nut_profile_g=1, tslot_nut_profile_e=5 )
 {
     drillholeDiameter=8-1.3; // Allow Standoff be used as mounting post (Currently using 8mm screws)
     tslot_centerdepth = tslot_centerdepth + standoff;
@@ -38,8 +38,8 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
                         negTol = 0.25;
                         posTol = 1.5;
                         translate([0,   negTol,0]) cube([20+extraGrip-2*ss, 0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
-                        translate([0, 4-negTol,0]) cube([20+extraGrip-2*ss, 0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
-                        translate([0, 6-posTol,0]) cube([15-2*ss,           0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
+                        translate([0, tslot_nut_profile_g-negTol,0]) cube([20+extraGrip-2*ss, 0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
+                        translate([0, (tslot_nut_profile_g+tslot_nut_profile_e)-posTol,0]) cube([tslot_centerwidth-2*ss,           0.1, tslot_centerwidth-cWidthTol-2*ss], center=true);
                     }
                     sphere(r=ss);
                 }
@@ -113,27 +113,31 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
 
 
 /* [Tslot Model] */
+// Using tslot_lock_nut_dia.svg as reference for letter dimentions
 model_slot_gap = 10;
 model_slot_side = 15;
 model_slot_depth = 4;
 model_slot_centerdepth = 7;
+model_slot_g_side = 1;
+model_slot_e_side = 6.5;
+model_slot_i_side = model_slot_gap;
 //%translate([model_slot_side/2+model_slot_gap/2,0,0]) cube([model_slot_side,model_slot_depth,100], center=true);
 //%translate([-model_slot_side/2-model_slot_gap/2,0,0]) cube([model_slot_side,model_slot_depth,100], center=true);
 
 translate([0,4,0])
 %difference()
 {
-    wallDepth=model_slot_depth+4;
+    wallDepth=model_slot_depth+5;
     translate([0,model_slot_centerdepth+wallDepth/2,0]) cube([model_slot_side*2+model_slot_gap,wallDepth,100], center=true);
 
     translate([0,model_slot_centerdepth+model_slot_depth/2,0]) cube([model_slot_gap,model_slot_depth+0.1,100+0.1], center=true);
    
-    translate([0,model_slot_centerdepth+model_slot_depth/2+(4)/2,0]) cube([20,4+0.1,100+0.1], center=true);
+    translate([0,model_slot_centerdepth+model_slot_depth/2+model_slot_g_side/2,0]) cube([20,model_slot_g_side+0.1,100+0.1], center=true);
 
     hull()
     {
-        translate([0,model_slot_centerdepth+model_slot_depth/2+4,0]) cube([20,0.1,100+0.1], center=true);
-        translate([0,model_slot_centerdepth+model_slot_depth/2+6,0]) cube([15,0.1,100+0.1], center=true);
+        translate([0,model_slot_centerdepth+model_slot_depth/2+model_slot_g_side,0]) cube([20,0.1,100+0.1], center=true);
+        translate([0,model_slot_centerdepth+model_slot_depth/2+(model_slot_g_side+model_slot_e_side),0]) cube([model_slot_i_side,0.1,100+0.1], center=true);
     }
 }
 
