@@ -6,6 +6,8 @@ $fn=100;
     Got a desk with tslot rails, would be nice to screwdriver on it...
 */
 
+use <tslot.scad>
+
 /* [Tslot Spec] */
 // CenterDepth
 tslot_centerdepth = 6.5;
@@ -27,7 +29,7 @@ model_slot_side = 15;
 // Hook Diameter
 hookdia=screwdriver_small_dia+2;
 // Hook Width
-hookwidth=7;
+hookwidth=tslot_centerwidth-1;
 // Hook Thickness
 hookthickness=screwdriver_top_dia-hookdia; // This is extra rest for the screwdriver head
 
@@ -35,61 +37,12 @@ hookthickness=screwdriver_top_dia-hookdia; // This is extra rest for the screwdr
 translate([0, -1, 0])
 union()
 {
-    difference()
-    {
-        union()
-        {
-            // Tslot Mount Inner
-            translate([0, tslot_centerdepth, 0])
-                intersection()
-                {
-                    heightlim=6;
-                    es=1;
-                    linear_extrude(height = hookwidth, center = true)
-                        polygon(points=[[-10-es,0],[-5-es,8],[5+es,8],[10+es,0]]);
-                    rotate([-90,0,0])
-                        intersection()
-                        {
-                            hull()
-                            {
-                                translate([0,0,0]) cylinder(r=10+es, h=0.1);
-                                translate([0,0,8]) cylinder(r=5+es, h=0.1);
-                            }
-                            union()
-                            {
-                                translate([0,0,heightlim/2+tslot_centerdepth/4])
-                                    cube([20+es*2,20,heightlim-tslot_centerdepth/2], center = true);
-                                intersection()
-                                {
-                                    rotate([0,90,0])
-                                        translate([-tslot_centerdepth/2,0,0])
-                                        cylinder(r=hookwidth/2, h=20+es*2, center = true);
-                                    cube([20+es*2,20,hookwidth+1], center = true);
-                                }
-                            }
-                        }
-                }
 
-            // tslot mount shaft
-            translate([0, -hookthickness, 0])
-            rotate([-90,0,0])
-                intersection()
-                {
-                    cheight = tslot_centerdepth+hookthickness+hookwidth/2;
-                    cylinder(r=tslot_centerwidth/2, h=cheight);
-                    translate([0, 0, cheight/2])
-                        cube([tslot_centerwidth+10, hookwidth, cheight], center=true);
-                }
-        }
-
-        // Split
-        translate([0, 100/2, 0])
-            cube([2,100,100], center=true);
-
-    }
+    translate([0,0,0])
+        tslot(tslot_centerdepth = tslot_centerdepth, tslot_centerwidth = tslot_centerwidth);
 
     // Hook
-    translate([0, -hookdia/2-hookthickness*2, 0])
+    translate([0, -hookthickness*2, 0])
     union()
     {
         rotate([0,-90,0])

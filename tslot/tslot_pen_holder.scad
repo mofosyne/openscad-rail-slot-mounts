@@ -32,7 +32,7 @@ hookdia=pen_cup_hole_diameter;
 // Hook Width
 hookwidth=tslot_centerwidth-1;
 // Hook Thickness
-hookthickness=0.5;
+hookthickness=0.6;
 
 /* [Tslot Model] */
 model_slot_gap = 10;
