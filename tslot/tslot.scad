@@ -17,7 +17,7 @@ $fn=100;
 
 // 2021-07-28: tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1
 
-module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standoff=5, cWidthTol = 1, tslot_nut_profile_g=1, tslot_nut_profile_e=5, tslot_nut_profile_a=20)
+module tslot(tslot_centerdepth = 7, tslot_centerwidth = 8, hookwidth=7, standoff=5, cWidthTol = 1, tslot_nut_profile_g=2, tslot_nut_profile_e=6, tslot_nut_profile_a=20)
 {
     drillholeDiameter=8-1.3; // Allow Standoff be used as mounting post (Currently using 8mm screws)
     split_grip=1.5;
@@ -51,6 +51,7 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
             }
 
             // Stabliser
+            // Note: Added extra 'split_grip' to account for the 'press fit' of the side clips
             translate([0, 4, 0])
             rotate([-90,0,0])
                 intersection()
@@ -61,19 +62,24 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
                     union()
                     {
                         translate([0,0,cheight/2])
-                            cylinder(r=(tslot_centerwidth-stabTol)/2+0.12, h=stabliserD, center=true);
-                        translate([tslot_centerwidth/4, tslot_centerwidth/4, cheight/2])
+                            cylinder(r=(tslot_centerwidth-stabTol+split_grip)/2+0.12, h=stabliserD, center=true);
+                        translate([tslot_centerwidth/4+split_grip, tslot_centerwidth/4, cheight/2])
                             cube([(tslot_centerwidth-stabTol*2)/2, tslot_centerwidth/2, stabliserD], center=true);
-                        translate([-tslot_centerwidth/4, -tslot_centerwidth/4, cheight/2])
+                        translate([-tslot_centerwidth/4-split_grip, -tslot_centerwidth/4, cheight/2])
                             cube([(tslot_centerwidth-stabTol*2)/2, tslot_centerwidth/2, stabliserD], center=true);
                     }
                     translate([0,0,cheight/2])
-                        cube([tslot_centerwidth, tslot_centerwidth-cWidthTol, stabliserD], center=true);
+                        cube([tslot_centerwidth+split_grip, tslot_centerwidth-cWidthTol, stabliserD], center=true);
                 }
 
             // This will change the stiffness
             slimming=1.5;
 
+            // This is more for looking symmetric...
+            // but means it's less easy to print
+            symmetric_shaft_cube = false;
+            connecting_shaft_height = symmetric_shaft_cube ? drillholeDiameter : (tslot_centerwidth-cWidthTol);
+            
             // tslot mount shaft
             translate([0, 0, 0])
             rotate([-90,0,0])
@@ -87,20 +93,22 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
                         {
                             translate([0, 0, 0])
                                 cube([tslot_centerwidth, tslot_centerwidth-cWidthTol, 0.01], center=true);
+                            translate([0, 0, cheight/2 - standoff-1])
+                                cube([tslot_centerwidth, tslot_centerwidth-cWidthTol, 0.01], center=true);
                             translate([0, 0,  cheight/2 - standoff])
-                                cube([tslot_centerwidth-slimming, drillholeDiameter, 0.1], center=true);
+                                cube([tslot_centerwidth-slimming, connecting_shaft_height, 0.1], center=true);
                         }
                         hull()
                         {
                             translate([0, 0,  cheight/2 - standoff])
-                                cube([tslot_centerwidth-slimming, drillholeDiameter, 0.1], center=true);
+                                cube([tslot_centerwidth-slimming, connecting_shaft_height, 0.1], center=true);
                             translate([0, 0,  cheight/2+1])
-                                cube([tslot_centerwidth-slimming, drillholeDiameter, 0.1], center=true);
+                                cube([tslot_centerwidth-slimming, connecting_shaft_height, 0.1], center=true);
                         }
                         hull()
                         {   
                             translate([0, 0,  cheight/2+1])
-                                cube([tslot_centerwidth-slimming, drillholeDiameter, 0.1], center=true);
+                                cube([tslot_centerwidth-slimming, connecting_shaft_height, 0.1], center=true);
                             translate([0, 0,  cheight/2+2-0.5])
                                 cube([tslot_centerwidth, tslot_centerwidth-cWidthTol, 0.01], center=true);
                         }
@@ -111,6 +119,15 @@ module tslot(tslot_centerdepth = 7, tslot_centerwidth = 10, hookwidth=7, standof
         // Split
         translate([0, 100/2+standoff-1.5, 0])
             cube([(split_gap+split_tol),100,100], center=true);
+
+        // Hull
+        hull()
+        {
+            translate([0, 100/2+tslot_centerdepth+hookwidth/2,0])
+                cube([(split_gap+split_tol),100,100], center=true);
+            translate([0, 100/2+tslot_centerdepth+hookwidth/2-2+(tslot_nut_profile_g+tslot_nut_profile_e),0])
+                cube([tslot_centerwidth*2/3,100,100], center=true);
+        }
     }
 }
 

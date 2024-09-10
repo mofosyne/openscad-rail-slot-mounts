@@ -22,3 +22,6 @@ Pull request will be accepted. Just don't forget to add your name to this page s
 
 ![](tslot_lock_nut_dia.svg)
 
+## TODO:
+
+* Sync cable hook, paper holder and screwdriver mount to use tslot.scad

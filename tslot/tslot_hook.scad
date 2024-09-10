@@ -16,7 +16,7 @@ extraStackCopies = 0;
 // CenterDepth
 //tslot_centerdepth = 6.5;
 // CenterWidth
-tslot_centerwidth = 10; // Gap to slot the clip though
+tslot_centerwidth = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
 /* [Hook Spec] */
@@ -25,7 +25,7 @@ hookdia=12;
 // Hook Flange
 hookflange=3;
 // Hook Width
-hookwidth=9;
+hookwidth=tslot_centerwidth-1;
 // Hook Thickness
 hookthickness=4;
 

@@ -10,7 +10,7 @@ use <tslot.scad>
 
 /* tslot spec */
 mountCenterDepth = 7;
-mountCenterWidth = 10;
+mountCenterWidth = 8;
 mountWidth = 7;
 mountStandoff = 5;
 mountTol = 1;
