@@ -32,7 +32,7 @@ hookdia=pen_cup_hole_diameter;
 // Hook Width
 hookwidth=tslot_centerwidth-1;
 // Hook Thickness
-hookthickness=1;
+hookthickness=0.5;
 
 /* [Tslot Model] */
 model_slot_gap = 10;
@@ -62,10 +62,19 @@ union()
                 }
                 hull()
                 {
+                    // Main body area
                     translate([hookdia/2+hookcenterspacing/2,0,0])
                         cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
                     translate([-hookdia/2-hookcenterspacing/2,0,0])
                         cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    if (hookthickness < 1) 
+                    {
+                        // Base (fatter for better print reliability)
+                        translate([hookdia/2+hookcenterspacing/2,0,-hookwidth/2])
+                            cylinder(r=hookdia/2+1, h=0.1, center=true);
+                        translate([-hookdia/2-hookcenterspacing/2,0,-hookwidth/2])
+                            cylinder(r=hookdia/2+1, h=0.1, center=true);
+                    }
                 }
             }
             hull()

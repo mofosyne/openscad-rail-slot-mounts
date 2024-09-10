@@ -11,7 +11,7 @@ TARGETS= \
 		tslot_tape_holderwCatch.stl \
 		tslot_smd_feeder.stl \
 		tslot_paper_holder_mini.stl \
-		tslot_screwdriver_mount.stl \
+		tslot_pen_holder.stl \
 
 bold="\\033[1m"
 normal="\\033[0m"
