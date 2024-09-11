@@ -10,9 +10,9 @@ use <tslot.scad>
 
 /* [Tslot Spec] */
 // CenterDepth
-tslot_centerdepth = 6.5;
+tslot_nut_profile_e = 6.5;
 // CenterWidth
-tslot_centerwidth = 8; // Gap to slot the clip though
+tslot_nut_profile_b = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
 
@@ -22,7 +22,7 @@ model_slot_side = 15;
 
 /* [Hook Calc] */
 // Hook Width
-hookwidth=7;
+standoff=7;
 
 /* [Headphone Spec] */
 headphoneRestWidth = 50;
@@ -160,15 +160,15 @@ union()
             {
                 // Long Flat
                 rotate([90,0,0])
-                    cylinder(r=tslot_centerwidth/2, h=headphoneRestWidth, center=false);
+                    cylinder(r=tslot_nut_profile_b/2, h=headphoneRestWidth, center=false);
                 translate([0, -headphoneRestWidth, 0])
                     rotate([90,0,0])
-                        typec_trrs_socket(hookwidth, 16, 0, 0);
+                        typec_trrs_socket(standoff, 16, 0, 0);
 
             }
 
             //bottomcut
-            cw = hookwidth;
+            cw = standoff;
             translate([-cw/2,-1000/2,-1000/2])
                 cube([cw,1000,1000], center=false);
         }

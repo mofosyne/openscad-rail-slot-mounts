@@ -11,7 +11,6 @@ use <tslot.scad>
 /* tslot spec */
 mountCenterDepth = 7;
 mountCenterWidth = 10;
-mountWidth = 7;
 mountStandoff = 5;
 mountTol = 1;
 
@@ -24,7 +23,7 @@ clipy = 2; // 2mm
 // Clip Rounding Diameter
 hookdia=0.5;
 // Clip Width
-hookwidth = mountCenterWidth - mountTol;
+standoff = mountCenterWidth - mountTol;
 // Thickness
 hookthickness=1.5;
 // Extra Standoff
@@ -37,7 +36,7 @@ model_slot_side = 15;
 translate([0, 0, 0])
 union()
 {
-    tslot(tslot_centerdepth = mountCenterDepth, tslot_centerwidth = mountCenterWidth, hookwidth=mountWidth, standoff=mountStandoff, cWidthTol = mountTol);
+    tslot(tslot_nut_profile_e = mountCenterDepth, tslot_nut_profile_b = mountCenterWidth, standoff=mountStandoff, cWidthTol = mountTol);
 
     // Cable Loop
     translate([0, 0, 0])
@@ -48,11 +47,11 @@ union()
             rotate([90,0,0])
                 cylinder(r=mountCenterWidth/2, h=0.1, center=true);
             translate([clipx/2+hookthickness/4,-extStandoff-hookthickness/2,0])
-                cylinder(r=hookthickness/2, h=hookwidth, center=true);
+                cylinder(r=hookthickness/2, h=standoff, center=true);
             translate([-clipx/2-hookthickness/4,-extStandoff-hookthickness/2,0])
-                cylinder(r=hookthickness/2, h=hookwidth, center=true);
+                cylinder(r=hookthickness/2, h=standoff, center=true);
         }
-        cube([100,100, hookwidth], center=true);
+        cube([100,100, standoff], center=true);
     }
 
     // Cable Loop
@@ -60,9 +59,9 @@ union()
     union()
     {
         translate([clipx/2 + hookthickness/2,0,0])
-            cylinder(r=(hookthickness)/2, h=hookwidth, center=true);
+            cylinder(r=(hookthickness)/2, h=standoff, center=true);
         translate([clipx/2 + hookthickness/2,-clipy-hookdia/2,0])
-            cylinder(r=(hookthickness)/2, h=hookwidth, center=true);
+            cylinder(r=(hookthickness)/2, h=standoff, center=true);
         
         translate([0, -hookdia/2, 0])
         difference()
@@ -70,36 +69,36 @@ union()
             hull()
             {
                 translate([clipx/2 - hookdia/2,0,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                 translate([-clipx/2,0,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                 translate([clipx/2 - hookdia/2,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                 translate([-clipx/2,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
             }
             hull()
             {
                 translate([clipx/2 - hookdia/2,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([-clipx/2 +hookdia/2,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([clipx/2 - hookdia/2,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([-clipx/2 +hookdia/2,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
             }
             // Top Cut
             hull()
             {
                 translate([clipx/2 - hookdia/2 + hookthickness+1,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([clipx/2 - hookdia/2 + hookthickness+1,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([clipx/2 - hookdia/2,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([clipx/2 - hookdia/2,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
             }
         }
     }

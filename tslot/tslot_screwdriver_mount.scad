@@ -10,9 +10,9 @@ use <tslot.scad>
 
 /* [Tslot Spec] */
 // CenterDepth
-tslot_centerdepth = 6.5;
+tslot_nut_profile_e = 6.5;
 // CenterWidth
-tslot_centerwidth = 8; // Gap to slot the clip though
+tslot_nut_profile_b = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
 /* [Screwdriver Spec] */
@@ -29,7 +29,7 @@ model_slot_side = 15;
 // Hook Diameter
 hookdia=screwdriver_small_dia+2;
 // Hook Width
-hookwidth=tslot_centerwidth-1;
+standoff=tslot_nut_profile_b-1;
 // Hook Thickness
 hookthickness=screwdriver_top_dia-hookdia; // This is extra rest for the screwdriver head
 
@@ -39,7 +39,7 @@ union()
 {
 
     translate([0,0,0])
-        tslot(tslot_centerdepth = tslot_centerdepth, tslot_centerwidth = tslot_centerwidth);
+        tslot(tslot_nut_profile_e = tslot_nut_profile_e, tslot_nut_profile_b = tslot_nut_profile_b);
 
     // Hook
     translate([0, -hookthickness*2, 0])
@@ -53,22 +53,22 @@ union()
             hull()
             {
                 translate([xx+hh,0,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                 translate([xx,0,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
 
                 // Long Flat
                 rotate([90,0,0])
-                    cylinder(r=tslot_centerwidth/2, h=hookdia+hookthickness*2, center=true);
+                    cylinder(r=tslot_nut_profile_b/2, h=hookdia+hookthickness*2, center=true);
             }
 
             // Grip Side 1
             hull()
             {
                 //Outer
-                translate([xx+hh,0,hookwidth/2+0.5])
+                translate([xx+hh,0,standoff/2+0.5])
                     cylinder(r=(hookdia/2+hookthickness-1), h=0.1, center=true);
-                translate([xx   ,0,hookwidth/2+0.5])
+                translate([xx   ,0,standoff/2+0.5])
                     cylinder(r=(hookdia/2+hookthickness-1), h=0.1, center=true);
                 //Center
                 translate([xx+hh,0,0])
@@ -81,9 +81,9 @@ union()
             hull()
             {
                 //Outer
-                translate([xx+hh,0,-hookwidth/2-0.5])
+                translate([xx+hh,0,-standoff/2-0.5])
                     cylinder(r=(hookdia/2+hookthickness-1), h=0.1, center=true);
-                translate([xx   ,0,-hookwidth/2-0.5])
+                translate([xx   ,0,-standoff/2-0.5])
                     cylinder(r=(hookdia/2+hookthickness-1), h=0.1, center=true);
                 //Center
                 translate([xx+hh,0,0])
@@ -100,10 +100,10 @@ union()
                 // Degreecut
                 rotate([0,0,degreecut/2])
                     translate([(hookdia+hookthickness+1),0,0])
-                    cube([hookdia+hookthickness+1,1,hookwidth+2], center=true);
+                    cube([hookdia+hookthickness+1,1,standoff+2], center=true);
                 rotate([0,0,-degreecut/2])
                     translate([(hookdia+hookthickness+1),0,0])
-                    cube([hookdia+hookthickness+1,1,hookwidth+2], center=true);
+                    cube([hookdia+hookthickness+1,1,standoff+2], center=true);
             }
 
             // Slide In Cut
@@ -111,13 +111,13 @@ union()
             hull()
             {
                 translate([(hookdia+hookthickness+10),0,0])
-                    cube([1,screwdriver_small_dia+1,hookwidth+2], center=true);
+                    cube([1,screwdriver_small_dia+1,standoff+2], center=true);
                 translate([((hookdia+hookthickness)/2),0,0])
-                    cube([1,screwdriver_small_dia+1,hookwidth+2], center=true);
+                    cube([1,screwdriver_small_dia+1,standoff+2], center=true);
             }
 
             //bottomcut
-            translate([-10-hookwidth/2,-100/2,-100/2])
+            translate([-10-standoff/2,-100/2,-100/2])
                 cube([10,100,100]);
         }
     }

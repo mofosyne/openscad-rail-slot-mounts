@@ -12,9 +12,9 @@ use <tslot.scad>
 
 /* [Tslot Spec] */
 // CenterDepth
-tslot_centerdepth = 6.5;
+tslot_nut_profile_e = 6.5;
 // CenterWidth
-tslot_centerwidth = 8; // Gap to slot the clip though
+tslot_nut_profile_b = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
 /* [Hook Spec] */
@@ -25,7 +25,7 @@ hookdia=10;
 // Hook Flange
 hookflange=3;
 // Hook Width
-hookwidth=tslot_centerwidth-1;
+standoff=tslot_nut_profile_b-1;
 // Hook Thickness
 hookthickness=2;
 
@@ -38,7 +38,7 @@ union()
 {
 
     translate([0,0,0])
-        tslot(tslot_centerdepth = tslot_centerdepth, tslot_centerwidth = tslot_centerwidth);
+        tslot(tslot_nut_profile_e = tslot_nut_profile_e, tslot_nut_profile_b = tslot_nut_profile_b);
 
     // Hook
     translate([0, -hookdia/2-hookthickness, 0])
@@ -49,19 +49,19 @@ union()
             hull()
             {
                 translate([hookdia/2+hookcenterspacing/2,0,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                 translate([-hookdia/2-hookcenterspacing/2,0,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
             }
             hull()
             {
                 translate([hookdia/2+hookcenterspacing/2,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([-hookdia/2-hookcenterspacing/2,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
             }
             translate([hookdia+hookdia/2+hookthickness/2,0,0])
-                cube([hookthickness+1,1,hookwidth+2], center=true);
+                cube([hookthickness+1,1,standoff+2], center=true);
         }
     }
 }

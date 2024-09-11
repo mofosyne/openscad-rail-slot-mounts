@@ -12,9 +12,9 @@ use <tslot.scad>
 
 /* [Tslot Spec] */
 // CenterDepth
-tslot_centerdepth = 6.5;
+tslot_nut_profile_e = 6.5;
 // CenterWidth
-tslot_centerwidth = 8; // Gap to slot the clip though
+tslot_nut_profile_b = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
 /* [Pen Spec] */
@@ -30,7 +30,7 @@ hookcenterspacing=10;
 // Hook Diameter
 hookdia=pen_cup_hole_diameter;
 // Hook Width
-hookwidth=tslot_centerwidth-1;
+standoff=tslot_nut_profile_b-1;
 // Hook Thickness
 hookthickness=0.6;
 
@@ -42,7 +42,7 @@ translate([0, -1, 0])
 union()
 {
     // Tslot
-    tslot(tslot_centerwidth=tslot_centerwidth);
+    tslot(tslot_nut_profile_b=tslot_nut_profile_b);
 
 
     // Hook
@@ -64,15 +64,15 @@ union()
                 {
                     // Main body area
                     translate([hookdia/2+hookcenterspacing/2,0,0])
-                        cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                        cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                     translate([-hookdia/2-hookcenterspacing/2,0,0])
-                        cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                        cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                     if (hookthickness < 1) 
                     {
                         // Base (fatter for better print reliability)
-                        translate([hookdia/2+hookcenterspacing/2,0,-hookwidth/2])
+                        translate([hookdia/2+hookcenterspacing/2,0,-standoff/2])
                             cylinder(r=hookdia/2+1, h=0.1, center=true);
-                        translate([-hookdia/2-hookcenterspacing/2,0,-hookwidth/2])
+                        translate([-hookdia/2-hookcenterspacing/2,0,-standoff/2])
                             cylinder(r=hookdia/2+1, h=0.1, center=true);
                     }
                 }
@@ -96,9 +96,9 @@ union()
                 hull()
                 {
                     translate([hookdia/2+hookcenterspacing/2,0,0])
-                        cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                        cylinder(r=hookdia/2, h=standoff+1, center=true);
                     translate([-hookdia/2-hookcenterspacing/2,0,0])
-                        cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                        cylinder(r=hookdia/2, h=standoff+1, center=true);
                 }
             }
 

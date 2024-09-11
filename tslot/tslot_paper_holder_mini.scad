@@ -24,7 +24,7 @@ clipy = 2.5; // 2mm
 // Clip Rounding Diameter
 hookdia=0.5;
 // Clip Width
-hookwidth = mountCenterWidth - mountTol;
+standoff = mountCenterWidth - mountTol;
 // Thickness
 hookthickness=2;
 // Extra Standoff
@@ -37,7 +37,7 @@ model_slot_side = 15;
 translate([0, 0, 0])
 union()
 {
-    tslot(tslot_centerdepth = mountCenterDepth, tslot_centerwidth = mountCenterWidth, hookwidth=mountWidth, standoff=mountStandoff, cWidthTol = mountTol);
+    tslot(tslot_nut_profile_e = mountCenterDepth, tslot_nut_profile_b = mountCenterWidth, standoff=mountStandoff, cWidthTol = mountTol);
 
     // Cable Loop
     translate([0, 0, 0])
@@ -48,11 +48,11 @@ union()
             rotate([90,0,0])
                 cylinder(r=mountCenterWidth/2, h=0.1, center=true);
             translate([clipx/2+hookthickness/4,-extStandoff-hookthickness/2,0])
-                cylinder(r=hookthickness/2, h=hookwidth, center=true);
+                cylinder(r=hookthickness/2, h=standoff, center=true);
             translate([-clipx/2-hookthickness/4,-extStandoff-hookthickness/2,0])
-                cylinder(r=hookthickness/2, h=hookwidth, center=true);
+                cylinder(r=hookthickness/2, h=standoff, center=true);
         }
-        cube([100,100, hookwidth], center=true);
+        cube([100,100, standoff], center=true);
     }
 
     // Cable Loop
@@ -72,22 +72,22 @@ union()
                 union()
                 {
                     translate([clipx/2 + topExtra,gripInset,0])
-                        cylinder(r=clipy/2+gripExtra, h=hookwidth, center=true);
+                        cylinder(r=clipy/2+gripExtra, h=standoff, center=true);
                     translate([clipx/2 + topExtra - clipy*2,gripInset*1.4,0])
-                        cylinder(r=clipy/2+gripExtra, h=hookwidth, center=true);
+                        cylinder(r=clipy/2+gripExtra, h=standoff, center=true);
                 }
                 // Top Cut
                 translate([0, -hookdia/2, 0])
                 hull()
                 {
                     translate([clipx/2 - clipy/2 + hookthickness+topExtra,hookdia/2,0])
-                        cylinder(r=0.1, h=hookwidth, center=true);
+                        cylinder(r=0.1, h=standoff, center=true);
                     translate([clipx/2 - clipy/2 + hookthickness+topExtra,-clipy,0])
-                        cylinder(r=0.1, h=(hookwidth)/2, center=true);
+                        cylinder(r=0.1, h=(standoff)/2, center=true);
                     translate([clipx/2 - clipy/2,+hookdia/2,0])
-                        cylinder(r=0.1, h=hookwidth, center=true);
+                        cylinder(r=0.1, h=standoff, center=true);
                     translate([clipx/2 - clipy/2,-clipy,0])
-                        cylinder(r=0.1, h=(hookwidth)/2, center=true);
+                        cylinder(r=0.1, h=(standoff)/2, center=true);
                 }
             }
             // Teeth Set 2
@@ -97,22 +97,22 @@ union()
                 union()
                 {
                     translate([clipx/2 + topExtra - clipy,-clipy-gripInset,0])
-                        cylinder(r=clipy/2+gripExtra, h=hookwidth, center=true);
+                        cylinder(r=clipy/2+gripExtra, h=standoff, center=true);
                     translate([clipx/2 + topExtra - clipy*3,-clipy-gripInset*1.4,0])
-                        cylinder(r=clipy/2+gripExtra, h=hookwidth, center=true);
+                        cylinder(r=clipy/2+gripExtra, h=standoff, center=true);
                 }
                 // Top Cut
                 translate([0, -hookdia/2, 0])
                 hull()
                 {
                     translate([clipx/2 - clipy/2 + hookthickness+topExtra,hookdia/2,0])
-                        cylinder(r=0.1, h=(hookwidth)/2, center=true);
+                        cylinder(r=0.1, h=(standoff)/2, center=true);
                     translate([clipx/2 - clipy/2 + hookthickness+topExtra,-clipy,0])
-                        cylinder(r=0.1, h=hookwidth, center=true);
+                        cylinder(r=0.1, h=standoff, center=true);
                     translate([clipx/2 - clipy/2,+hookdia/2,0])
-                        cylinder(r=0.1, h=(hookwidth)/2, center=true);
+                        cylinder(r=0.1, h=(standoff)/2, center=true);
                     translate([clipx/2 - clipy/2,-clipy,0])
-                        cylinder(r=0.1, h=hookwidth, center=true);
+                        cylinder(r=0.1, h=standoff, center=true);
                 }
             }
         }
@@ -125,37 +125,37 @@ union()
                 topExtra = clipy*4;
                 bottomExtra = 1;
                 translate([clipx/2 - hookdia/2+topExtra,0,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                 translate([clipx/2 - hookdia/2+topExtra-clipy,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                 translate([-clipx/2-bottomExtra,0,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                 translate([-clipx/2-bottomExtra,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2+hookthickness, h=hookwidth, center=true);
+                    cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
             }
             hull()
             {
                 translate([clipx/2 - hookdia/2,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([-clipx/2 +hookdia/2,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([clipx/2 - hookdia/2,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([-clipx/2 +hookdia/2,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
             }
             // Top Cut
             hull()
             {
                 topExtra = clipy*4+1;
                 translate([clipx/2 - hookdia/2 + hookthickness+topExtra,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([clipx/2 - hookdia/2 + hookthickness+topExtra,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([clipx/2 - hookdia/2,0,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
                 translate([clipx/2 - hookdia/2,-clipy+hookdia/2,0])
-                    cylinder(r=hookdia/2, h=hookwidth+1, center=true);
+                    cylinder(r=hookdia/2, h=standoff+1, center=true);
             }
         }
     }

@@ -2,6 +2,7 @@
 // Original Source: https://www.thingiverse.com/thing:2414955/files
 // Remixed By Mofosyne 2021 July
 // 
+$fn=100;
 
 use <tslot.scad>
 

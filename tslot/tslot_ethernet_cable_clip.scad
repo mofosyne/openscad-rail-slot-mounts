@@ -14,9 +14,9 @@ use <tslot.scad>
 
 /* [Tslot Spec] */
 // CenterDepth
-tslot_centerdepth = 6.5;
+tslot_nut_profile_e = 6.5;
 // CenterWidth
-tslot_centerwidth = 8; // Gap to slot the clip though
+tslot_nut_profile_b = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
 /* [Hook Spec] */
@@ -27,7 +27,7 @@ hookdia=10;
 // Hook Flange
 hookflange=3;
 // Hook Width
-hookwidth=7;
+standoff=7;
 // Hook Thickness
 hookthickness=2;
 
@@ -113,10 +113,10 @@ module tslotEthernetClip()
                 rotate([-90,0,0])
                     intersection()
                     {
-                        cheight = tslot_centerdepth+hookthickness+hookwidth/2;
-                        cylinder(r=tslot_centerwidth/2, h=hookthickness);
+                        cheight = tslot_nut_profile_e+hookthickness+standoff/2;
+                        cylinder(r=tslot_nut_profile_b/2, h=hookthickness);
                         translate([0, 0, cheight/2])
-                            cube([tslot_centerwidth+10, hookwidth, cheight], center=true);
+                            cube([tslot_nut_profile_b+10, standoff, cheight], center=true);
                     }
             }
         }
@@ -124,7 +124,7 @@ module tslotEthernetClip()
         // Clip
         translate([0, -hookthickness, 0])
             rotate([0,0,-90])
-            clips(nClips, hookwidth, cableDia, outer, anglecut);
+            clips(nClips, standoff, cableDia, outer, anglecut);
     }
 }
 
@@ -135,7 +135,7 @@ if (1)
     for(i = [0:1:4])
     {
         layerGapSpacing = 0.45;
-        translate([0,0,i*(hookwidth+layerGapSpacing)])
+        translate([0,0,i*(standoff+layerGapSpacing)])
             tslotEthernetClip();
     }
 }

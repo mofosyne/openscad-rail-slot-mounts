@@ -12,14 +12,14 @@ use <tslot.scad>
 
 /* [Tslot Spec] */
 // CenterDepth
-tslot_centerdepth = 6.5;
+tslot_nut_profile_e = 6.5;
 // CenterWidth
-tslot_centerwidth = 8; // Gap to slot the clip though
+tslot_nut_profile_b = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
 /* [Clip Spec] */
 // Clip Width
-hookwidth=tslot_centerwidth-1;
+standoff=tslot_nut_profile_b-1;
 // Clip Standoff
 hookthickness=2;
 
@@ -32,7 +32,7 @@ model_slot_side = 15;
 
 Alter_spring_gap=4;//[0:1:7]
 paper_gap=0.5;//[0.2:0.1:0.5]
-thickness=hookwidth;
+thickness=standoff;
 grip_end_L1=20;
 grip_end_L2=17;
 grip_radius=13;
@@ -125,7 +125,7 @@ union()
 {
     
     translate([0,0,0])
-        tslot(tslot_centerdepth = tslot_centerdepth, tslot_centerwidth = tslot_centerwidth);
+        tslot(tslot_nut_profile_e = tslot_nut_profile_e, tslot_nut_profile_b = tslot_nut_profile_b);
 
 
     translate([-0, -6.5-hookthickness, -thickness/2])
