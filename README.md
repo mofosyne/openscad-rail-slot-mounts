@@ -20,4 +20,14 @@ Pull request will be accepted. Just don't forget to add your name to this page s
 
 ## T-Slot Profile Nut
 
+This is a diagram of a typical tslot lock nut
+
 ![](tslot_lock_nut_dia.svg)
+
+This is a diagram of our tslot soft locking connector
+
+![](tslot_lock_nut_dia_extended.svg)
+
+Which would generally be for tslot profiles which might look like
+
+![](TRailExample.png)

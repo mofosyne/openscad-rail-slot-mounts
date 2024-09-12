@@ -28,15 +28,18 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
     
     tslot_flexture = standoff - flexture_standoff;
 
-    stabliserD=4.5; // 4
-    
+    tslot_nut_profile_f_stabliser = 5;
+
+    tslot_nut_profile_f_stabliser_flats = 1;
+    tslot_nut_profile_f_stabliser_flats_bump = 1;
+
     difference()
     {
         union()
         {
             // Tslot Mount Inner
             extraGrip = 0.25;
-            translate([0,tslot_flexture+flexture_standoff+stabliserD,0])
+            translate([0,tslot_flexture+flexture_standoff+tslot_nut_profile_f_stabliser,0])
             intersection()
             {
                 ss = 0.5; ///< Smoothing
@@ -59,7 +62,7 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
 
             // Stabliser
             // Note: Added extra 'split_grip' to account for the 'press fit' of the side clips
-            translate([0, tslot_flexture+flexture_standoff+stabliserD/2, 0])
+            translate([0, tslot_flexture+flexture_standoff+tslot_nut_profile_f_stabliser/2, 0])
             rotate([-90,0,0])
                 intersection()
                 {
@@ -67,14 +70,33 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
                     union()
                     {
                         translate([0,0,0])
-                            cylinder(r=(tslot_nut_profile_b-stabTol+split_grip)/2+0.12, h=stabliserD, center=true);
+                            cylinder(r=(tslot_nut_profile_b-stabTol+split_grip)/2+0.12, h=tslot_nut_profile_f_stabliser, center=true);
                         translate([tslot_nut_profile_b/4+split_grip, tslot_nut_profile_b/4, 0])
-                            cube([(tslot_nut_profile_b-stabTol*2)/2, tslot_nut_profile_b/2, stabliserD], center=true);
+                            cube([(tslot_nut_profile_b-stabTol*2)/2, tslot_nut_profile_b/2, tslot_nut_profile_f_stabliser], center=true);
                         translate([-tslot_nut_profile_b/4-split_grip, -tslot_nut_profile_b/4, 0])
-                            cube([(tslot_nut_profile_b-stabTol*2)/2, tslot_nut_profile_b/2, stabliserD], center=true);
+                            cube([(tslot_nut_profile_b-stabTol*2)/2, tslot_nut_profile_b/2, tslot_nut_profile_f_stabliser], center=true);
                     }
                     translate([0,0,0])
-                        cube([tslot_nut_profile_b+split_grip, tslot_nut_profile_b-cWidthTol, stabliserD], center=true);
+                        cube([tslot_nut_profile_b+split_grip, tslot_nut_profile_b-cWidthTol, tslot_nut_profile_f_stabliser], center=true);
+                }
+
+            // Stabliser Flats
+            translate([0, tslot_flexture+flexture_standoff-tslot_nut_profile_f_stabliser_flats/2, 0])
+            rotate([-90,0,0])
+                intersection()
+                {
+                    stabTol = 0.25;
+                    union()
+                    {
+                        translate([0,0,0])
+                            cylinder(r=(tslot_nut_profile_b-stabTol+split_grip+tslot_nut_profile_f_stabliser_flats_bump*2)/2+0.12, h=tslot_nut_profile_f_stabliser_flats, center=true);
+                        translate([tslot_nut_profile_b/4+split_grip+tslot_nut_profile_f_stabliser_flats_bump*2, tslot_nut_profile_b/4, 0])
+                            cube([(tslot_nut_profile_b-stabTol*2)/2, tslot_nut_profile_b/2, tslot_nut_profile_f_stabliser_flats], center=true);
+                        translate([-tslot_nut_profile_b/4-split_grip-tslot_nut_profile_f_stabliser_flats_bump*2, -tslot_nut_profile_b/4, 0])
+                            cube([(tslot_nut_profile_b-stabTol*2)/2, tslot_nut_profile_b/2, tslot_nut_profile_f_stabliser_flats], center=true);
+                    }
+                    translate([0,0,0])
+                        cube([tslot_nut_profile_b+split_grip+tslot_nut_profile_f_stabliser_flats_bump*2, tslot_nut_profile_b-cWidthTol, tslot_nut_profile_f_stabliser_flats], center=true);
                 }
 
             // This will change the stiffness
@@ -89,7 +111,7 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
             rotate([-90,0,0])
                 intersection()
                 {
-                    cheight = flexture_standoff+tslot_flexture;
+                    cheight = flexture_standoff+tslot_flexture-tslot_nut_profile_f_stabliser_flats;
                     cylinder(r=tslot_nut_profile_b/2, h=cheight);
                     union()
                     {
@@ -127,9 +149,9 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
         // Hull
         hull()
         {
-            translate([0, 100/2+tslot_flexture+flexture_standoff+stabliserD,0])
+            translate([0, 100/2+tslot_flexture+flexture_standoff+tslot_nut_profile_f_stabliser,0])
                 cube([(split_gap+split_tol),100,100], center=true);
-            translate([0, 100/2+tslot_flexture+flexture_standoff+stabliserD+tslot_nut_profile_e/2,0])
+            translate([0, 100/2+tslot_flexture+flexture_standoff+tslot_nut_profile_f_stabliser+tslot_nut_profile_e/2,0])
                 cube([tslot_nut_profile_b*2/3,100,100], center=true);
         }
     }
