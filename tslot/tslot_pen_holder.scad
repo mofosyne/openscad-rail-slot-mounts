@@ -32,7 +32,7 @@ hookdia=pen_cup_hole_diameter;
 // Hook Width
 standoff=tslot_nut_profile_b-1;
 // Hook Thickness
-hookthickness=0.6;
+hookthickness=0.80;
 
 /* [Tslot Model] */
 model_slot_gap = 10;
@@ -42,7 +42,7 @@ translate([0, -1, 0])
 union()
 {
     // Tslot
-    tslot(tslot_nut_profile_b=tslot_nut_profile_b);
+    tslot(tslot_nut_profile_b=tslot_nut_profile_b, standoff=3);
 
 
     // Hook
