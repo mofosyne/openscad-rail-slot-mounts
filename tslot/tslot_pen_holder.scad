@@ -41,9 +41,11 @@ model_slot_side = 15;
 translate([0, -1, 0])
 union()
 {
+    hookthickness_minimum=1.50;
+
+
     // Tslot
     tslot(tslot_nut_profile_b=tslot_nut_profile_b, standoff=3);
-
 
     // Hook
     translate([0, -hookdia/2-hookthickness, 0])
@@ -67,13 +69,13 @@ union()
                         cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
                     translate([-hookdia/2-hookcenterspacing/2,0,0])
                         cylinder(r=hookdia/2+hookthickness, h=standoff, center=true);
-                    if (hookthickness < 1) 
+                    if (hookthickness < hookthickness_minimum) 
                     {
                         // Base (fatter for better print reliability)
                         translate([hookdia/2+hookcenterspacing/2,0,-standoff/2])
-                            cylinder(r=hookdia/2+1, h=0.1, center=true);
+                            cylinder(r=hookdia/2+hookthickness_minimum, h=0.1, center=true);
                         translate([-hookdia/2-hookcenterspacing/2,0,-standoff/2])
-                            cylinder(r=hookdia/2+1, h=0.1, center=true);
+                            cylinder(r=hookdia/2+hookthickness_minimum, h=0.1, center=true);
                     }
                 }
             }
