@@ -18,11 +18,11 @@ tslot_nut_profile_b = 8; // Gap to slot the clip though
 // For the wedge... its based on a 4040mm Tslot... so may need to modify polygon() in this script
 
 /* [Pen Spec] */
-pen_cup_hole_diameter=12; // Give bit extra for tolerance
+pen_cup_hole_diameter=13; // Give bit extra for tolerance
 pen_cup_hole_depth=90;
 
 /* [Caliper Spec] */
-caliper_rule_hole_thickness=5; // Typically 4mm but extra for tolerance
+caliper_rule_hole_thickness=6; // Typically 4mm but extra for tolerance
 
 /* [Hook Spec (adapted... as a pen cup)] */
 // Spacing between centerpoint
@@ -32,7 +32,7 @@ hookdia=pen_cup_hole_diameter;
 // Hook Width
 standoff=tslot_nut_profile_b-1;
 // Hook Thickness
-hookthickness=0.80;
+hookthickness=1.0;
 
 /* [Tslot Model] */
 model_slot_gap = 10;
@@ -45,7 +45,7 @@ union()
 
 
     // Tslot
-    tslot(tslot_nut_profile_b=tslot_nut_profile_b, standoff=3);
+    tslot();
 
     // Hook
     translate([0, -hookdia/2-hookthickness, 0])

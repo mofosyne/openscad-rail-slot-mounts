@@ -22,13 +22,12 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
     split_grip=1.5;
     split_gap=2;
     split_tol=0.5;
-
-    flexture_standoff = 2;
     
-    tslot_flexture = standoff - flexture_standoff;
+    tslot_flexture = standoff;
+    flexture_gap_length = 4;
 
     stabliser_front_length = 1;
-    stabliser_front_bump = 1;
+    stabliser_front_bump = 2;
 
     difference()
     {
@@ -36,7 +35,7 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
         {
             // Tslot Mount Inner
             extraGrip = 0.25;
-            translate([0,tslot_flexture+flexture_standoff+tslot_nut_profile_f,0])
+            translate([0,tslot_flexture+tslot_nut_profile_f,0])
             intersection()
             {
                 ss = 0.5; ///< Smoothing
@@ -59,7 +58,7 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
 
             // Stabliser
             // Note: Added extra 'split_grip' to account for the 'press fit' of the side clips
-            translate([0, tslot_flexture+flexture_standoff+tslot_nut_profile_f/2, 0])
+            translate([0, tslot_flexture+tslot_nut_profile_f/2, 0])
             rotate([-90,0,0])
                 intersection()
                 {
@@ -78,7 +77,7 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
                 }
 
             // Stabliser Flats
-            translate([0, tslot_flexture+flexture_standoff-stabliser_front_length/2, 0])
+            translate([0, tslot_flexture-stabliser_front_length/2, 0])
             rotate([-90,0,0])
                 intersection()
                 {
@@ -105,7 +104,7 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
             rotate([-90,0,0])
                 intersection()
                 {
-                    cheight = flexture_standoff+tslot_flexture-stabliser_front_length;
+                    cheight = tslot_flexture-stabliser_front_length;
                     cylinder(r=tslot_nut_profile_b/2, h=cheight);
                     union()
                     {
@@ -113,14 +112,14 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
                         {
                             translate([0, 0, 0])
                                 cube([tslot_nut_profile_b, tslot_nut_profile_b-cWidthTol, 0.01], center=true);
-                            translate([0, 0, flexture_standoff/2])
+                            translate([0, 0, 1])
                                 cube([tslot_nut_profile_b, tslot_nut_profile_b-cWidthTol, 0.01], center=true);
-                            translate([0, 0,  flexture_standoff])
+                            translate([0, 0,  2])
                                 cube([tslot_nut_profile_b-slimming, connecting_shaft_height, 0.1], center=true);
                         }
                         hull()
                         {
-                            translate([0, 0,  flexture_standoff])
+                            translate([0, 0,  2])
                                 cube([tslot_nut_profile_b-slimming, connecting_shaft_height, 0.1], center=true);
                             translate([0, 0,  cheight*0.8])
                                 cube([tslot_nut_profile_b-slimming, connecting_shaft_height, 0.1], center=true);
@@ -137,15 +136,15 @@ module tslot(tslot_nut_profile_e = 7, tslot_nut_profile_b = 8, tslot_nut_profile
         }
 
         // Split
-        translate([0, 100/2+flexture_standoff+tslot_flexture, 0])
+        translate([0, 100/2+tslot_flexture-stabliser_front_length-flexture_gap_length, 0])
             cube([(split_gap+split_tol),100,100], center=true);
 
         // Hull
         hull()
         {
-            translate([0, 100/2+tslot_flexture+flexture_standoff+tslot_nut_profile_f,0])
+            translate([0, 100/2+tslot_flexture+tslot_nut_profile_f,0])
                 cube([(split_gap+split_tol),100,100], center=true);
-            translate([0, 100/2+tslot_flexture+flexture_standoff+tslot_nut_profile_f+tslot_nut_profile_e/2,0])
+            translate([0, 100/2+tslot_flexture+tslot_nut_profile_f+tslot_nut_profile_e/2,0])
                 cube([tslot_nut_profile_b*2/3,100,100], center=true);
         }
     }
